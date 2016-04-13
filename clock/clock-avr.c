@@ -19,15 +19,15 @@ volatile int ledState;
 
 int run = 0;
 
-int buttonState;
-int lastButtonState;
+int buttonState = 1;
+int lastButtonState = 1;
 
 void setupButtons()
 {
   DDRB |= (1 << PB3); // Set pin 4 as output
-  DDRB |= (0 << PB1); // Set startButton as input
+  DDRB &= ~(1 << PB1); // Set startButton as input
   PORTB |= (1 << PB1); // enable input_pullup
-  DDRB |= (0 << PB2); // Set stepButton as input
+  DDRB &= ~(1 << PB2); // Set stepButton as input
   PORTB |= (1 << PB2); // enable input_pullup
 }
 
@@ -55,9 +55,9 @@ int main() {
 
   while (1)
   {
-    buttonState = PINB;
+    buttonState = (PINB & PB1);
 
-    if (buttonState != lastButtonState)
+    if (lastButtonState != buttonState)
     {
       if (buttonState == 0)
       {
@@ -81,7 +81,7 @@ int main() {
     }
 
 
-    if (buttonState == 0x00000100)
+    if (PINB & PB2)
     {
       // Stop timer0 if it is running
       if (run)
