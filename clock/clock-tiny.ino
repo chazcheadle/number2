@@ -1,6 +1,7 @@
 /**
  * This is an Arduino based clock source for the 6502 (CMOS).
  *
+ * This version is meant to be run on an Attiny85.
  * The clock source can be started, stopped and single-stepped.
  */
 
